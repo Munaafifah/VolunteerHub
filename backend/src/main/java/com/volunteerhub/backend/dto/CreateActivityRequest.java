@@ -33,8 +33,6 @@ public class CreateActivityRequest {
     @Min(value = 1, message = "Capacity must be at least 1")
     private Integer capacity;
 
-    private String createdBy;
-
     public String getTitle() {
         return title;
     }
@@ -97,13 +95,5 @@ public class CreateActivityRequest {
 
     public void setCapacity(Integer capacity) {
         this.capacity = capacity;
-    }
-
-    public String getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(String createdBy) {
-        this.createdBy = createdBy;
     }
 }

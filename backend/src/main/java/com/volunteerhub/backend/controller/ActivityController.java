@@ -5,6 +5,8 @@ import java.util.List;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -46,8 +48,10 @@ public class ActivityController {
     }
 
     @PostMapping
-    public ResponseEntity<ActivityResponse> createActivity(@Valid @RequestBody CreateActivityRequest request) {
-        ActivityResponse created = activityService.createActivity(request);
+    public ResponseEntity<ActivityResponse> createActivity(@Valid @RequestBody CreateActivityRequest request,
+                                                             @AuthenticationPrincipal Jwt jwt) {
+        String createdBy = jwt.getClaimAsString("userId");
+        ActivityResponse created = activityService.createActivity(request, createdBy);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 

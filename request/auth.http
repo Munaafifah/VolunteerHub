@@ -1,0 +1,27 @@
+### Register a new volunteer
+POST http://localhost:8082/api/auth/register
+Content-Type: application/json
+
+{
+  "name": "Test Volunteer",
+  "email": "testvolunteer@example.com",
+  "password": "TestPass123"
+}
+
+### Login as seeded admin
+POST http://localhost:8082/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "admin1@volunteerhub.com",
+  "password": "Admin@12345"
+}
+
+### Login as seeded volunteer
+POST http://localhost:8082/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "user1@volunteerhub.com",
+  "password": "Volunteer@123"
+}

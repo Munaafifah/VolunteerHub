@@ -68,7 +68,7 @@ public class ActivityService {
         return toResponse(activity);
     }
 
-    public ActivityResponse createActivity(CreateActivityRequest request) {
+    public ActivityResponse createActivity(CreateActivityRequest request, String createdBy) {
         Activity newActivity = new Activity(
                 request.getTitle(),
                 request.getDescription(),
@@ -80,11 +80,11 @@ public class ActivityService {
                 request.getCapacity(),
                 0,
                 "ACTIVE",
-                request.getCreatedBy()
+                createdBy
         );
 
         Activity saved = activityRepository.save(newActivity);
-        log.info("Created new activity with id={}", saved.getId());
+        log.info("Created new activity with id={} createdBy={}", saved.getId(), createdBy);
         return toResponse(saved);
     }
 

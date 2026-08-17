@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.volunteerhub.backend.dto.CreateRegistrationRequest;
 import com.volunteerhub.backend.dto.RegistrationResponse;
 import com.volunteerhub.backend.exception.DuplicateResourceException;
+import com.volunteerhub.backend.exception.ForbiddenActionException;
 import com.volunteerhub.backend.exception.InvalidRequestException;
 import com.volunteerhub.backend.exception.ResourceNotFoundException;
 import com.volunteerhub.backend.model.Activity;
@@ -25,6 +26,7 @@ public class RegistrationService {
 
     private static final String STATUS_REGISTERED = "REGISTERED";
     private static final String STATUS_CANCELLED = "CANCELLED";
+    private static final String ROLE_ADMIN = "ADMIN";
 
     private final RegistrationRepository registrationRepository;
     private final ActivityRepository activityRepository;
@@ -34,26 +36,22 @@ public class RegistrationService {
         this.activityRepository = activityRepository;
     }
 
-    public RegistrationResponse register(CreateRegistrationRequest request) {
-        String userId = request.getUserId();
+    public RegistrationResponse register(CreateRegistrationRequest request, String userId) {
         String activityId = request.getActivityId();
 
         Activity activity = activityRepository.findById(activityId)
                 .orElseThrow(() -> new ResourceNotFoundException("Activity " + activityId + " was not found"));
 
-        // Rule 3: no duplicate registration - one active REGISTERED row per (userId, activityId)
         if (registrationRepository.existsByUserIdAndActivityIdAndStatus(userId, activityId, STATUS_REGISTERED)) {
             throw new DuplicateResourceException(
                     "User " + userId + " is already registered for activity " + activityId);
         }
 
-        // Rule 2: deadline check - cannot register if now > registrationDeadline
         if (LocalDate.now().isAfter(activity.getRegistrationDeadline())) {
             throw new InvalidRequestException(
                     "Registration deadline for activity " + activityId + " has passed");
         }
 
-        // Rule 1: capacity check - cannot register if registeredCount >= capacity
         if (activity.getRegisteredCount() >= activity.getCapacity()) {
             throw new InvalidRequestException(
                     "Activity " + activityId + " is already at full capacity");
@@ -76,9 +74,16 @@ public class RegistrationService {
         return toResponse(saved);
     }
 
-    public RegistrationResponse cancel(String id) {
+    public RegistrationResponse cancel(String id, String requestingUserId, String requestingRole) {
         Registration registration = registrationRepository.findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Registration " + id + " was not found"));
+
+        boolean isOwner = registration.getUserId().equals(requestingUserId);
+        boolean isAdmin = ROLE_ADMIN.equals(requestingRole);
+
+        if (!isOwner && !isAdmin) {
+            throw new ForbiddenActionException("You can only cancel your own registrations");
+        }
 
         if (STATUS_CANCELLED.equals(registration.getStatus())) {
             throw new InvalidRequestException("Registration " + id + " is already cancelled");
@@ -89,14 +94,13 @@ public class RegistrationService {
 
         Registration updated = registrationRepository.save(registration);
 
-        // Rule 4: cancel frees a slot - decrement registeredCount on the Activity
         Activity activity = activityRepository.findById(updated.getActivityId())
                 .orElseThrow(() -> new ResourceNotFoundException("Activity " + updated.getActivityId() + " was not found"));
 
         activity.setRegisteredCount(Math.max(activity.getRegisteredCount() - 1, 0));
         activityRepository.save(activity);
 
-        log.info("Cancelled registration id={}", updated.getId());
+        log.info("Cancelled registration id={} by userId={}", updated.getId(), requestingUserId);
         return toResponse(updated);
     }
 

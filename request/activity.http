@@ -1,35 +1,41 @@
+@token = eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbjFAdm9sdW50ZWVyaHViLmNvbSIsInJvbGUiOiJBRE1JTiIsImlzcyI6InZvbHVudGVlcmh1Yi1hcGkiLCJuYW1lIjoiQWRtaW4gT25lIiwiZXhwIjoxNzg2OTc1MDA5LCJpYXQiOjE3ODY5NzE0MDksInVzZXJJZCI6ImFkbWluMSJ9.SNFih2hBXdFr50AXL9ZJ3ChJlByxGqnKisWLNrFyG3Y
+
 ### Create an activity
 POST http://localhost:8082/api/activities
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 {
-  "title": "Charity Run for Clean Water",
-  "description": "5km charity run raising funds for clean water access in rural communities.",
-  "category": "Fundraising",
-  "location": "Taman Tasik Puchong",
-  "activityDate": "2026-07-25",
-  "activityTime": "06:30",
-  "registrationDeadline": "2026-07-20",
-  "capacity": 100,
-  "createdBy": "admin2"
+  "title": "Beach Cleanup Drive",
+  "description": "Community beach cleanup at Sunway Beach",
+  "category": "Environment",
+  "location": "Sunway Beach",
+  "activityDate": "2026-09-15",
+  "activityTime": "08:00",
+  "registrationDeadline": "2026-09-10",
+  "capacity": 30
 }
 
 ### Get all activities
 GET http://localhost:8082/api/activities
+Authorization: Bearer {{token}}
 
 ### Get one activity by ID
-GET http://localhost:8082/api/activities/6a82a53a0eca53060c41358a
+GET http://localhost:8082/api/activities/6a8305535d74d1f9e140ae2b
+Authorization: Bearer {{token}}
 
 ### Get paged activities
 GET http://localhost:8082/api/activities/paged?page=0&size=5&sortBy=activityDate&direction=asc
+Authorization: Bearer {{token}}
 
 ### Update an activity
-PUT http://localhost:8082/api/activities/6a82a5ff0eca53060c413590
+PUT http://localhost:8082/api/activities/6a8305535d74d1f9e140ae2b
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 {
-  "title": "Park Cleanup Drive",
-  "description": "Community park cleanup at Sunway Beach",
+  "title": "Beach Cleanup Drive",
+  "description": "Community beach cleanup at Sunway Beach",
   "category": "Environment",
   "location": "Sunway Beach",
   "activityDate": "2026-09-15",
@@ -40,10 +46,5 @@ Content-Type: application/json
 }
 
 ### Deactivate an activity
-DELETE http://localhost:8082/api/activities/6a82a5ff0eca53060c413590
-
-### Most popular activities (default top 5)
-GET http://localhost:8082/api/reports/popular-activities
-
-### Most popular activities (top 1 only)
-GET http://localhost:8082/api/reports/popular-activities?limit=1
+DELETE http://localhost:8082/api/activities/6a8305535d74d1f9e140ae2b
+Authorization: Bearer {{token}}

@@ -1,47 +1,47 @@
-### Register a volunteer
+@token = eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyMUB2b2x1bnRlZXJodWIuY29tIiwicm9sZSI6IlZPTFVOVEVFUiIsImlzcyI6InZvbHVudGVlcmh1Yi1hcGkiLCJuYW1lIjoiVm9sdW50ZWVyIE9uZSIsImV4cCI6MTc4Njk3NTAyNywiaWF0IjoxNzg2OTcxNDI3LCJ1c2VySWQiOiJ1c2VyMSJ9.GP2CsIQ7ZOuZs8W1j1MbPOyyip4kfqo0pl_kiwg4-lU
+
+### Register (as user1)
 POST http://localhost:8082/api/registrations
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 {
-  "userId": "user10",
-  "activityId": "6a82a53a0eca53060c413589"
+  "activityId": "6a8305535d74d1f9e140ae2b"
 }
 
-### Try registering the same user again - expect 409 Conflict (duplicate)
+### Try registering the same activity again - expect 409 Conflict
 POST http://localhost:8082/api/registrations
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 {
-  "userId": "user10",
-  "activityId": "6a82a53a0eca53060c413589"
+  "activityId": "6a8305535d74d1f9e140ae2b"
 }
 
-### Try registering into a full activity - expect 400 (Blood Donation Camp is 50/50)
+### Try registering into a full activity - expect 400
 POST http://localhost:8082/api/registrations
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 {
-  "userId": "user99",
-  "activityId": "6a82a53a0eca53060c41358a"
+  "activityId": "6a8305535d74d1f9e140ae2b"
 }
-
-### Get my registrations
-GET http://localhost:8082/api/registrations/my?userId=user1
-
-### Get all registrations
-GET http://localhost:8082/api/registrations
-
-### Cancel a registration
-DELETE http://localhost:8082/api/registrations/6a82aa1b85620ebc71794de8
 
 ### Try registering into an activity with an expired deadline - expect 400
 POST http://localhost:8082/api/registrations
 Content-Type: application/json
+Authorization: Bearer {{token}}
 
 {
-  "userId": "user77",
-  "activityId": "6a82a73d85620ebc71794dce"
+  "activityId": "6a8305535d74d1f9e140ae2b"
 }
 
-### Confirm registeredCount incremented
-GET http://localhost:8082/api/activities/6a82a53a0eca53060c413589
+### Get my registrations
+GET http://localhost:8082/api/registrations/my
+Authorization: Bearer {{token}}
+
+### Cancel my own registration
+DELETE http://localhost:8082/api/registrations/6a82aa1b85620ebc71794de4
+Authorization: Bearer {{token}}
+
+
