@@ -41,3 +41,9 @@ Content-Type: application/json
 
 ### Deactivate an activity
 DELETE http://localhost:8082/api/activities/6a82a5ff0eca53060c413590
+
+### Most popular activities (default top 5)
+GET http://localhost:8082/api/reports/popular-activities
+
+### Most popular activities (top 1 only)
+GET http://localhost:8082/api/reports/popular-activities?limit=1
