@@ -5,11 +5,13 @@ import java.time.LocalDate;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.annotation.Order;
 
 import com.volunteerhub.backend.model.Activity;
 import com.volunteerhub.backend.repository.ActivityRepository;
 
 @Configuration
+@Order(1)
 public class ActivityDataSeeder {
 
     @Bean

@@ -1,0 +1,47 @@
+### Register a volunteer
+POST http://localhost:8082/api/registrations
+Content-Type: application/json
+
+{
+  "userId": "user10",
+  "activityId": "6a82a53a0eca53060c413589"
+}
+
+### Try registering the same user again - expect 409 Conflict (duplicate)
+POST http://localhost:8082/api/registrations
+Content-Type: application/json
+
+{
+  "userId": "user10",
+  "activityId": "6a82a53a0eca53060c413589"
+}
+
+### Try registering into a full activity - expect 400 (Blood Donation Camp is 50/50)
+POST http://localhost:8082/api/registrations
+Content-Type: application/json
+
+{
+  "userId": "user99",
+  "activityId": "6a82a53a0eca53060c41358a"
+}
+
+### Get my registrations
+GET http://localhost:8082/api/registrations/my?userId=user1
+
+### Get all registrations
+GET http://localhost:8082/api/registrations
+
+### Cancel a registration
+DELETE http://localhost:8082/api/registrations/6a82aa1b85620ebc71794de8
+
+### Try registering into an activity with an expired deadline - expect 400
+POST http://localhost:8082/api/registrations
+Content-Type: application/json
+
+{
+  "userId": "user77",
+  "activityId": "6a82a73d85620ebc71794dce"
+}
+
+### Confirm registeredCount incremented
+GET http://localhost:8082/api/activities/6a82a53a0eca53060c413589
