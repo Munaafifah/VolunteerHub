@@ -1,0 +1,43 @@
+### Create an activity
+POST http://localhost:8082/api/activities
+Content-Type: application/json
+
+{
+  "title": "Charity Run for Clean Water",
+  "description": "5km charity run raising funds for clean water access in rural communities.",
+  "category": "Fundraising",
+  "location": "Taman Tasik Puchong",
+  "activityDate": "2026-07-25",
+  "activityTime": "06:30",
+  "registrationDeadline": "2026-07-20",
+  "capacity": 100,
+  "createdBy": "admin2"
+}
+
+### Get all activities
+GET http://localhost:8082/api/activities
+
+### Get one activity by ID
+GET http://localhost:8082/api/activities/6a82a53a0eca53060c41358a
+
+### Get paged activities
+GET http://localhost:8082/api/activities/paged?page=0&size=5&sortBy=activityDate&direction=asc
+
+### Update an activity
+PUT http://localhost:8082/api/activities/6a82a5ff0eca53060c413590
+Content-Type: application/json
+
+{
+  "title": "Park Cleanup Drive",
+  "description": "Community park cleanup at Sunway Beach",
+  "category": "Environment",
+  "location": "Sunway Beach",
+  "activityDate": "2026-09-15",
+  "activityTime": "08:00",
+  "registrationDeadline": "2026-09-10",
+  "capacity": 40,
+  "status": "ACTIVE"
+}
+
+### Deactivate an activity
+DELETE http://localhost:8082/api/activities/6a82a5ff0eca53060c413590
