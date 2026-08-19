@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
+import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import * as activitiesApi from "../api/activitiesApi";
 import "../styles/activities.css";
@@ -151,6 +152,9 @@ export default function ActivitiesPage() {
                     <dd>{activity.registeredCount} / {activity.capacity}</dd>
                   </div>
                 </dl>
+                <Link to={`/activities/${activity.id}`} className="view-details-link">
+                  View Details →
+                </Link>
               </div>
             ))}
           </div>

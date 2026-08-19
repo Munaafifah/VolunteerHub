@@ -11,3 +11,7 @@ export function getPagedActivities(params, token) {
 
   return apiRequest(`/activities/paged?${query.toString()}`, { token });
 }
+
+export function getActivityById(id, token) {
+  return apiRequest(`/activities/${id}`, { token });
+}

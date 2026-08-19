@@ -126,3 +126,12 @@
   color: #667085;
   font-size: 0.9rem;
 }
+
+.view-details-link {
+  display: inline-block;
+  margin-top: 12px;
+  color: #4f46e5;
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
