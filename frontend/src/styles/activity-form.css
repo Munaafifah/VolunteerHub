@@ -1,0 +1,109 @@
+.activity-form-status {
+  color: #667085;
+  padding: 40px 0;
+  text-align: center;
+}
+
+.activity-form-error {
+  color: #b42318;
+}
+
+.activity-form-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.activity-form-header-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.activity-form-header-actions button {
+  padding: 8px 16px;
+  border: 1px solid #d0d5dd;
+  border-radius: 6px;
+  background: #fff;
+  cursor: pointer;
+  font-size: 0.9rem;
+}
+
+.activity-form {
+  background: #fff;
+  border: 1px solid #eaecf0;
+  border-radius: 8px;
+  padding: 24px;
+  max-width: 720px;
+  display: grid;
+  gap: 16px;
+}
+
+.activity-form label {
+  display: block;
+  font-size: 0.9rem;
+  color: #344054;
+  font-weight: 600;
+}
+
+.activity-form input,
+.activity-form textarea,
+.activity-form select {
+  display: block;
+  width: 100%;
+  margin-top: 6px;
+  padding: 8px 10px;
+  border: 1px solid #d0d5dd;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  font-weight: normal;
+  box-sizing: border-box;
+}
+
+.activity-form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.field-error {
+  display: block;
+  color: #b42318;
+  font-size: 0.8rem;
+  font-weight: normal;
+  margin-top: 4px;
+}
+
+.form-message {
+  padding: 10px 14px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+}
+
+.form-error {
+  background: #fef2f2;
+  color: #991b1b;
+}
+
+.form-success {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.activity-form-submit {
+  justify-self: start;
+  padding: 10px 24px;
+  border: none;
+  border-radius: 6px;
+  background: #4f46e5;
+  color: #fff;
+  font-size: 1rem;
+  cursor: pointer;
+}
+
+.activity-form-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}

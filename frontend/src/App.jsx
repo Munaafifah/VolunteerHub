@@ -11,6 +11,7 @@ import ActivityDetailsPage from "./pages/ActivityDetailsPage";
 import RegisterActivityPage from "./pages/RegisterActivityPage";
 import MyRegistrationsPage from "./pages/MyRegistrationsPage";
 import AdminActivitiesPage from "./pages/AdminActivitiesPage";
+import ActivityFormPage from "./pages/ActivityFormPage";
 import AdminReportsPage from "./pages/AdminReportsPage";
 import NotFoundPage from "./pages/NotFoundPage";
 
@@ -31,6 +32,8 @@ export default function App() {
 
             <Route element={<AdminRoute />}>
               <Route path="/admin/activities" element={<AdminActivitiesPage />} />
+              <Route path="/admin/activities/new" element={<ActivityFormPage />} />
+              <Route path="/admin/activities/:activityId/edit" element={<ActivityFormPage />} />
               <Route path="/admin/reports" element={<AdminReportsPage />} />
             </Route>
           </Route>

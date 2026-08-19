@@ -15,3 +15,26 @@ export function getPagedActivities(params, token) {
 export function getActivityById(id, token) {
   return apiRequest(`/activities/${id}`, { token });
 }
+
+export function createActivity(payload, token) {
+  return apiRequest("/activities", {
+    method: "POST",
+    body: payload,
+    token
+  });
+}
+
+export function updateActivity(id, payload, token) {
+  return apiRequest(`/activities/${id}`, {
+    method: "PUT",
+    body: payload,
+    token
+  });
+}
+
+export function deactivateActivity(id, token) {
+  return apiRequest(`/activities/${id}`, {
+    method: "DELETE",
+    token
+  });
+}

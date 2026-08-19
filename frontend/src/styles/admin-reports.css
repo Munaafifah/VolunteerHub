@@ -1,0 +1,88 @@
+.admin-reports-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.limit-select {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.9rem;
+  color: #344054;
+}
+
+.limit-select select {
+  padding: 6px 10px;
+  border: 1px solid #d0d5dd;
+  border-radius: 6px;
+}
+
+.admin-reports-status {
+  color: #667085;
+  padding: 24px 0;
+}
+
+.admin-reports-error {
+  color: #b42318;
+}
+
+.report-list {
+  display: grid;
+  gap: 12px;
+}
+
+.report-row {
+  display: grid;
+  grid-template-columns: 40px 1fr 60px;
+  align-items: center;
+  gap: 16px;
+  background: #fff;
+  border: 1px solid #eaecf0;
+  border-radius: 8px;
+  padding: 16px 20px;
+}
+
+.report-rank {
+  font-size: 1.2rem;
+  font-weight: 700;
+  color: #4f46e5;
+  text-align: center;
+}
+
+.report-details {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.report-details strong {
+  color: #172033;
+}
+
+.report-meta {
+  color: #667085;
+  font-size: 0.8rem;
+}
+
+.report-bar-track {
+  background: #eef2ff;
+  border-radius: 999px;
+  height: 8px;
+  margin-top: 6px;
+  overflow: hidden;
+}
+
+.report-bar-fill {
+  background: #4f46e5;
+  height: 100%;
+  border-radius: 999px;
+}
+
+.report-count {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #172033;
+  text-align: right;
+}
