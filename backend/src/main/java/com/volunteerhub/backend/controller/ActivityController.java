@@ -1,7 +1,5 @@
 package com.volunteerhub.backend.controller;
 
-import java.util.List;
-
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -34,12 +32,17 @@ public class ActivityController {
         this.activityService = activityService;
     }
 
-    @GetMapping
-    public List<ActivityResponse> getAllActivities(
+    @GetMapping("/paged")
+    public Page<ActivityResponse> getPagedActivities(
+            @RequestParam(required = false) String keyword,
             @RequestParam(required = false) String status,
             @RequestParam(required = false) String category,
-            @RequestParam(required = false) String location) {
-        return activityService.getAllActivities(status, category, location);
+            @RequestParam(required = false) String location,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "5") int size,
+            @RequestParam(defaultValue = "activityDate") String sortBy,
+            @RequestParam(defaultValue = "asc") String direction) {
+        return activityService.getPagedActivities(keyword, status, category, location, page, size, sortBy, direction);
     }
 
     @GetMapping("/{id}")
@@ -53,15 +56,6 @@ public class ActivityController {
         String createdBy = jwt.getClaimAsString("userId");
         ActivityResponse created = activityService.createActivity(request, createdBy);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
-    }
-
-    @GetMapping("/paged")
-    public Page<ActivityResponse> getPagedActivities(
-            @RequestParam(defaultValue = "0") int page,
-            @RequestParam(defaultValue = "5") int size,
-            @RequestParam(defaultValue = "activityDate") String sortBy,
-            @RequestParam(defaultValue = "asc") String direction) {
-        return activityService.getPagedActivities(page, size, sortBy, direction);
     }
 
     @PutMapping("/{id}")
