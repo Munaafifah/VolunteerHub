@@ -1,0 +1,78 @@
+.registrations-status {
+  color: #667085;
+  padding: 40px 0;
+  text-align: center;
+}
+
+.registrations-error {
+  color: #b42318;
+}
+
+.my-registrations-page h1 {
+  margin-bottom: 20px;
+}
+
+.registrations-list {
+  display: grid;
+  gap: 12px;
+}
+
+.registration-card {
+  background: #fff;
+  border: 1px solid #eaecf0;
+  border-radius: 8px;
+  padding: 16px 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.registration-info h3 {
+  margin: 0 0 4px;
+}
+
+.registration-meta {
+  color: #667085;
+  font-size: 0.85rem;
+  margin: 2px 0;
+}
+
+.registration-actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.status-badge {
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+}
+
+.status-registered {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.status-cancelled {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.cancel-button {
+  padding: 6px 14px;
+  border: 1px solid #d0d5dd;
+  border-radius: 6px;
+  background: #fff;
+  color: #991b1b;
+  cursor: pointer;
+  font-size: 0.85rem;
+}
+
+.cancel-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
