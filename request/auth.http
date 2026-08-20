@@ -25,3 +25,7 @@ Content-Type: application/json
   "email": "user1@volunteerhub.com",
   "password": "Volunteer@123"
 }
+
+### Get all users (paste token from above)
+GET http://localhost:8082/api/users
+Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbjFAdm9sdW50ZWVyaHViLmNvbSIsInJvbGUiOiJBRE1JTiIsImlzcyI6InZvbHVudGVlcmh1Yi1hcGkiLCJuYW1lIjoiQWRtaW4gT25lIiwiZXhwIjoxNzg3MjIyMTgzLCJpYXQiOjE3ODcyMTg1ODMsInVzZXJJZCI6ImFkbWluMSJ9.hVAjKDuUiv5KWS5Tz37suK8-GBT2a4xSAK47SeTE8uM

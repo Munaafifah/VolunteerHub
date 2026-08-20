@@ -12,6 +12,10 @@ export function getMyRegistrations(token) {
   return apiRequest("/registrations/my", { token });
 }
 
+export function getAllRegistrations(token) {
+  return apiRequest("/registrations", { token });
+}
+
 export function cancelRegistration(id, token) {
   return apiRequest(`/registrations/${id}`, {
     method: "DELETE",

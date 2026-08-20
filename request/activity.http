@@ -1,4 +1,4 @@
-@token = eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbjFAdm9sdW50ZWVyaHViLmNvbSIsInJvbGUiOiJBRE1JTiIsImlzcyI6InZvbHVudGVlcmh1Yi1hcGkiLCJuYW1lIjoiQWRtaW4gT25lIiwiZXhwIjoxNzg2OTc1MDA5LCJpYXQiOjE3ODY5NzE0MDksInVzZXJJZCI6ImFkbWluMSJ9.SNFih2hBXdFr50AXL9ZJ3ChJlByxGqnKisWLNrFyG3Y
+@token = eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbjFAdm9sdW50ZWVyaHViLmNvbSIsInJvbGUiOiJBRE1JTiIsImlzcyI6InZvbHVudGVlcmh1Yi1hcGkiLCJuYW1lIjoiQWRtaW4gT25lIiwiZXhwIjoxNzg3MTUxMDU0LCJpYXQiOjE3ODcxNDc0NTQsInVzZXJJZCI6ImFkbWluMSJ9.L8Wzk_Hhx5cUA4cXK7Sf3vBH9bo57NSS4FEUigjVWxA
 
 ### Create an activity
 POST http://localhost:8082/api/activities
@@ -47,4 +47,20 @@ Authorization: Bearer {{token}}
 
 ### Deactivate an activity
 DELETE http://localhost:8082/api/activities/6a8305535d74d1f9e140ae2b
+Authorization: Bearer {{token}}
+
+### Get paged activities (defaults)
+GET http://localhost:8082/api/activities/paged
+Authorization: Bearer {{token}}
+
+### Search by keyword
+GET http://localhost:8082/api/activities/paged?keyword=beach
+Authorization: Bearer {{token}}
+
+### Filter by category
+GET http://localhost:8082/api/activities/paged?category=Environment
+Authorization: Bearer {{token}}
+
+### Combined: keyword + status + sort + pagination
+GET http://localhost:8082/api/activities/paged?keyword=drive&status=ACTIVE&sortBy=capacity&direction=desc&page=0&size=5
 Authorization: Bearer {{token}}

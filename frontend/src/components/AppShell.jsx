@@ -28,6 +28,7 @@ export default function AppShell() {
         {user?.role === "ADMIN" && (
           <>
             <NavLink to="/admin/activities" className={navClass}>Manage Activities</NavLink>
+            <NavLink to="/admin/registrations" className={navClass}>All Registrations</NavLink>
             <NavLink to="/admin/reports" className={navClass}>Reports</NavLink>
           </>
         )}

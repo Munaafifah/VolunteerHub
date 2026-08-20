@@ -13,6 +13,7 @@ import MyRegistrationsPage from "./pages/MyRegistrationsPage";
 import AdminActivitiesPage from "./pages/AdminActivitiesPage";
 import ActivityFormPage from "./pages/ActivityFormPage";
 import AdminReportsPage from "./pages/AdminReportsPage";
+import AdminRegistrationsPage from "./pages/AdminRegistrationsPage";
 import NotFoundPage from "./pages/NotFoundPage";
 
 export default function App() {
@@ -34,6 +35,7 @@ export default function App() {
               <Route path="/admin/activities" element={<AdminActivitiesPage />} />
               <Route path="/admin/activities/new" element={<ActivityFormPage />} />
               <Route path="/admin/activities/:activityId/edit" element={<ActivityFormPage />} />
+              <Route path="/admin/registrations" element={<AdminRegistrationsPage />} />
               <Route path="/admin/reports" element={<AdminReportsPage />} />
             </Route>
           </Route>
