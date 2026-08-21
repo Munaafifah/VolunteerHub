@@ -1,8 +1,12 @@
 import { useState, useEffect, useCallback } from "react";
-import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { useMyRegisteredActivityIds } from "../hooks/useMyRegisteredActivityIds";
 import * as activitiesApi from "../api/activitiesApi";
+import SpotsGauge from "../components/SpotsGauge";
+import ConfirmRegistrationModal from "../components/ConfirmRegistrationModal";
 import "../styles/activities.css";
+import { formatTime12Hour } from "../utils/formatTime";
+
 
 const CATEGORIES = ["Environment", "Health", "Education", "Animal Welfare", "Community"];
 const SORT_OPTIONS = [
@@ -12,8 +16,17 @@ const SORT_OPTIONS = [
 ];
 const PAGE_SIZE = 6;
 
+function getRegistrationState(activity) {
+  const spotsLeft = activity.capacity - activity.registeredCount;
+  const isFull = spotsLeft <= 0;
+  const deadlinePassed = new Date(activity.registrationDeadline) < new Date(new Date().toDateString());
+  const canRegister = activity.status === "ACTIVE" && !isFull && !deadlinePassed;
+  return { isFull, deadlinePassed, canRegister };
+}
+
 export default function ActivitiesPage() {
   const { token } = useAuth();
+  const { registeredActivityIds, markAsRegistered } = useMyRegisteredActivityIds();
 
   const [keywordInput, setKeywordInput] = useState("");
   const [keyword, setKeyword] = useState("");
@@ -25,6 +38,10 @@ export default function ActivitiesPage() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+
+  const [selectedActivity, setSelectedActivity] = useState(null);
+  const [relatedActivities, setRelatedActivities] = useState([]);
+  const [showRegisterModal, setShowRegisterModal] = useState(false);
 
   const fetchActivities = useCallback(async () => {
     setLoading(true);
@@ -53,6 +70,58 @@ export default function ActivitiesPage() {
   useEffect(() => {
     fetchActivities();
   }, [fetchActivities]);
+
+  useEffect(() => {
+    if (data && data.content.length > 0) {
+      const stillOnPage = data.content.some((a) => a.id === selectedActivity?.id);
+      if (!stillOnPage) {
+        setSelectedActivity(data.content[0]);
+      }
+    } else {
+      setSelectedActivity(null);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [data]);
+
+  useEffect(() => {
+    if (!selectedActivity) {
+      setRelatedActivities([]);
+      return;
+    }
+
+    let ignore = false;
+
+    async function loadRelated() {
+      try {
+        const result = await activitiesApi.getPagedActivities(
+          {
+            category: selectedActivity.category,
+            status: "ACTIVE",
+            sortBy: "activityDate",
+            direction: "asc",
+            page: 0,
+            size: 4
+          },
+          token
+        );
+        if (!ignore) {
+          setRelatedActivities(
+            result.content.filter((a) => a.id !== selectedActivity.id).slice(0, 3)
+          );
+        }
+      } catch {
+        if (!ignore) {
+          setRelatedActivities([]);
+        }
+      }
+    }
+
+    loadRelated();
+
+    return () => {
+      ignore = true;
+    };
+  }, [selectedActivity?.id, selectedActivity?.category, token]);
 
   function handleSearchSubmit(event) {
     event.preventDefault();
@@ -84,6 +153,16 @@ export default function ActivitiesPage() {
       setPage((prev) => prev + 1);
     }
   }
+
+  const isAlreadyRegistered = selectedActivity
+    ? registeredActivityIds.has(selectedActivity.id)
+    : false;
+
+  const registrationState = selectedActivity
+    ? getRegistrationState(selectedActivity)
+    : { isFull: false, deadlinePassed: false, canRegister: false };
+
+  const canRegister = registrationState.canRegister && !isAlreadyRegistered;
 
   return (
     <div className="activities-page">
@@ -128,35 +207,114 @@ export default function ActivitiesPage() {
 
       {!loading && !error && data && data.content.length > 0 && (
         <>
-          <div className="activities-grid">
-            {data.content.map((activity) => (
-              <div className="activity-card" key={activity.id}>
-                <h3>{activity.title}</h3>
-                <p className="activity-category">{activity.category}</p>
-                <p>{activity.description}</p>
-                <dl>
-                  <div>
-                    <dt>Location</dt>
-                    <dd>{activity.location}</dd>
+          <div className="activities-split">
+            <div className="activities-list">
+              {data.content.map((activity) => (
+                <button
+                  key={activity.id}
+                  type="button"
+                  className={`activity-row${
+                    activity.id === selectedActivity?.id ? " activity-row-selected" : ""
+                  }`}
+                  onClick={() => setSelectedActivity(activity)}
+                >
+                  <span className="activity-row-info">
+                    <span className="activity-row-badge">{activity.category}</span>
+                    <span className="activity-row-title">{activity.title}</span>
+                  </span>
+                  <SpotsGauge
+                    registeredCount={activity.registeredCount}
+                    capacity={activity.capacity}
+                  />
+                </button>
+              ))}
+            </div>
+
+            <div className="activity-detail-panel">
+              {selectedActivity ? (
+                <>
+                  <span className="activity-category">{selectedActivity.category}</span>
+                  <h2>{selectedActivity.title}</h2>
+
+                  <div className="activity-detail-gauge">
+                    <SpotsGauge
+                      registeredCount={selectedActivity.registeredCount}
+                      capacity={selectedActivity.capacity}
+                    />
                   </div>
-                  <div>
-                    <dt>Date</dt>
-                    <dd>{activity.activityDate} at {activity.activityTime}</dd>
+
+                  <div className="activity-detail-stats">
+                    <div className="activity-detail-stat">
+                      <span className="activity-detail-stat-label">Location</span>
+                      <span className="activity-detail-stat-value">{selectedActivity.location}</span>
+                    </div>
+                    <div className="activity-detail-stat">
+                      <span className="activity-detail-stat-label">Date</span>
+                      <span className="activity-detail-stat-value">
+                        {selectedActivity.activityDate} at {formatTime12Hour(selectedActivity.activityTime)}
+                      </span>
+                    </div>
+                    <div className="activity-detail-stat">
+                      <span className="activity-detail-stat-label">Deadline</span>
+                      <span className="activity-detail-stat-value">
+                        {selectedActivity.registrationDeadline}
+                      </span>
+                    </div>
                   </div>
-                  <div>
-                    <dt>Deadline</dt>
-                    <dd>{activity.registrationDeadline}</dd>
-                  </div>
-                  <div>
-                    <dt>Spots</dt>
-                    <dd>{activity.registeredCount} / {activity.capacity}</dd>
-                  </div>
-                </dl>
-                <Link to={`/activities/${activity.id}`} className="view-details-link">
-                  View Details →
-                </Link>
-              </div>
-            ))}
+
+                  <p className="activity-detail-description">{selectedActivity.description}</p>
+
+                  {isAlreadyRegistered && (
+                    <p className="activity-detail-notice activity-detail-notice-success">
+                      You're already registered for this activity.
+                    </p>
+                  )}
+
+                  {!isAlreadyRegistered && !registrationState.canRegister && (
+                    <p className="activity-detail-notice">
+                      {selectedActivity.status !== "ACTIVE" &&
+                        "This activity is not currently open for registration."}
+                      {selectedActivity.status === "ACTIVE" &&
+                        registrationState.isFull &&
+                        "This activity is full."}
+                      {selectedActivity.status === "ACTIVE" &&
+                        !registrationState.isFull &&
+                        registrationState.deadlinePassed &&
+                        "The registration deadline has passed."}
+                    </p>
+                  )}
+
+                  <button
+                    type="button"
+                    className="activity-detail-register"
+                    disabled={!canRegister}
+                    onClick={() => setShowRegisterModal(true)}
+                  >
+                    {isAlreadyRegistered ? "Already registered" : "Register for this activity"}
+                  </button>
+
+                  {relatedActivities.length > 0 && (
+                    <div className="activity-related">
+                      <p className="activity-related-label">
+                        Other {selectedActivity.category} activities
+                      </p>
+                      {relatedActivities.map((related) => (
+                        <button
+                          key={related.id}
+                          type="button"
+                          className="activity-related-item"
+                          onClick={() => setSelectedActivity(related)}
+                        >
+                          {related.title} →
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </>
+              ) : (
+                <p className="activity-detail-empty">Select an activity to see details.</p>
+              )}
+            </div>
           </div>
 
           <div className="activities-pagination">
@@ -175,6 +333,14 @@ export default function ActivitiesPage() {
             </button>
           </div>
         </>
+      )}
+
+      {showRegisterModal && selectedActivity && (
+        <ConfirmRegistrationModal
+          activity={selectedActivity}
+          onClose={() => setShowRegisterModal(false)}
+          onSuccess={(activityId) => markAsRegistered(activityId)}
+        />
       )}
     </div>
   );

@@ -1,5 +1,4 @@
 import { Routes, Route, Navigate } from "react-router-dom";
-import "./App.css";
 import { AuthProvider } from "./context/AuthContext";
 import ProtectedRoute from "./components/ProtectedRoute";
 import AdminRoute from "./components/AdminRoute";
@@ -8,7 +7,6 @@ import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
 import ActivitiesPage from "./pages/ActivitiesPage";
 import ActivityDetailsPage from "./pages/ActivityDetailsPage";
-import RegisterActivityPage from "./pages/RegisterActivityPage";
 import MyRegistrationsPage from "./pages/MyRegistrationsPage";
 import AdminActivitiesPage from "./pages/AdminActivitiesPage";
 import ActivityFormPage from "./pages/ActivityFormPage";
@@ -28,7 +26,6 @@ export default function App() {
           <Route element={<AppShell />}>
             <Route path="/activities" element={<ActivitiesPage />} />
             <Route path="/activities/:id" element={<ActivityDetailsPage />} />
-            <Route path="/activities/:id/register" element={<RegisterActivityPage />} />
             <Route path="/registrations" element={<MyRegistrationsPage />} />
 
             <Route element={<AdminRoute />}>

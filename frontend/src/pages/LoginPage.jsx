@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { useNavigate, useLocation, Link } from "react-router-dom";
+import { HeartHandshake } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import "../styles/auth.css";
 
@@ -32,44 +33,51 @@ export default function LoginPage() {
 
   return (
     <div className="auth-page">
-      <div className="auth-card">
-        <h2>Login to VolunteerHub</h2>
+      <div>
+        <div className="auth-brand">
+          <HeartHandshake className="auth-brand-icon" size={24} aria-hidden="true" />
+          <span className="auth-brand-text">VolunteerHub</span>
+        </div>
 
-        <form onSubmit={handleSubmit}>
-          <label>
-            Email
-            <input
-              type="email"
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
-              required
-            />
-          </label>
+        <div className="auth-card">
+          <h2>Login to VolunteerHub</h2>
 
-          <label>
-            Password
-            <input
-              type="password"
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
-              required
-            />
-          </label>
+          <form onSubmit={handleSubmit}>
+            <label>
+              Email
+              <input
+                type="email"
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
+                required
+              />
+            </label>
 
-          {error && <p className="auth-error" role="alert">{error}</p>}
+            <label>
+              Password
+              <input
+                type="password"
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+                required
+              />
+            </label>
 
-          <button type="submit" disabled={loading}>
-            {loading ? "Logging in..." : "Login"}
-          </button>
-        </form>
+            {error && <p className="auth-error" role="alert">{error}</p>}
 
-        <p className="auth-switch">
-          Don't have an account? <Link to="/register">Register</Link>
-        </p>
+            <button type="submit" disabled={loading}>
+              {loading ? "Logging in..." : "Login"}
+            </button>
+          </form>
 
-        <div className="seeded-hint">
-          <p>Seeded admin: admin1@volunteerhub.com / Admin@12345</p>
-          <p>Seeded volunteer: user1@volunteerhub.com / Volunteer@123</p>
+          <p className="auth-switch">
+            Don't have an account? <Link to="/register">Register</Link>
+          </p>
+
+          <div className="seeded-hint">
+            <p>Seeded admin: admin1@volunteerhub.com / Admin@12345</p>
+            <p>Seeded volunteer: user1@volunteerhub.com / Volunteer@123</p>
+          </div>
         </div>
       </div>
     </div>

@@ -1,17 +1,22 @@
 import { useEffect, useState } from "react";
-import { useParams, Link, useNavigate } from "react-router-dom";
+import { useParams, Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { useMyRegisteredActivityIds } from "../hooks/useMyRegisteredActivityIds";
 import * as activitiesApi from "../api/activitiesApi";
+import SpotsGauge from "../components/SpotsGauge";
+import ConfirmRegistrationModal from "../components/ConfirmRegistrationModal";
 import "../styles/activity-details.css";
+import { formatTime12Hour } from "../utils/formatTime";
 
 export default function ActivityDetailsPage() {
   const { id } = useParams();
   const { token } = useAuth();
-  const navigate = useNavigate();
+  const { registeredActivityIds, markAsRegistered } = useMyRegisteredActivityIds();
 
   const [activity, setActivity] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showRegisterModal, setShowRegisterModal] = useState(false);
 
   useEffect(() => {
     let ignore = false;
@@ -62,7 +67,8 @@ export default function ActivityDetailsPage() {
   const spotsLeft = activity.capacity - activity.registeredCount;
   const isFull = spotsLeft <= 0;
   const deadlinePassed = new Date(activity.registrationDeadline) < new Date(new Date().toDateString());
-  const canRegister = activity.status === "ACTIVE" && !isFull && !deadlinePassed;
+  const isAlreadyRegistered = registeredActivityIds.has(activity.id);
+  const canRegister = activity.status === "ACTIVE" && !isFull && !deadlinePassed && !isAlreadyRegistered;
 
   return (
     <div className="activity-details-page">
@@ -80,15 +86,17 @@ export default function ActivityDetailsPage() {
           </div>
           <div>
             <dt>Date</dt>
-            <dd>{activity.activityDate} at {activity.activityTime}</dd>
+            <dd>{activity.activityDate} at {formatTime12Hour(activity.activityTime)}</dd>
           </div>
           <div>
             <dt>Registration deadline</dt>
             <dd>{activity.registrationDeadline}</dd>
           </div>
-          <div>
+          <div className="details-list-gauge">
             <dt>Spots</dt>
-            <dd>{activity.registeredCount} / {activity.capacity} filled</dd>
+            <dd>
+              <SpotsGauge registeredCount={activity.registeredCount} capacity={activity.capacity} />
+            </dd>
           </div>
           <div>
             <dt>Status</dt>
@@ -96,7 +104,13 @@ export default function ActivityDetailsPage() {
           </div>
         </dl>
 
-        {!canRegister && (
+        {isAlreadyRegistered && (
+          <p className="details-notice details-notice-success">
+            You're already registered for this activity.
+          </p>
+        )}
+
+        {!isAlreadyRegistered && !canRegister && (
           <p className="details-notice">
             {activity.status !== "ACTIVE" && "This activity is not currently open for registration."}
             {activity.status === "ACTIVE" && isFull && "This activity is full."}
@@ -108,11 +122,19 @@ export default function ActivityDetailsPage() {
           type="button"
           className="register-button"
           disabled={!canRegister}
-          onClick={() => navigate(`/activities/${id}/register`)}
+          onClick={() => setShowRegisterModal(true)}
         >
-          Register for this activity
+          {isAlreadyRegistered ? "Already registered" : "Register for this activity"}
         </button>
       </div>
+
+      {showRegisterModal && (
+        <ConfirmRegistrationModal
+          activity={activity}
+          onClose={() => setShowRegisterModal(false)}
+          onSuccess={() => markAsRegistered(activity.id)}
+        />
+      )}
     </div>
   );
 }

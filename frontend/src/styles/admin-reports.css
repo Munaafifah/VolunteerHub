@@ -3,6 +3,8 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 24px;
+  flex-wrap: wrap;
+  gap: 12px;
 }
 
 .limit-select {
@@ -10,22 +12,23 @@
   align-items: center;
   gap: 8px;
   font-size: 0.9rem;
-  color: #344054;
+  color: var(--color-text);
 }
 
 .limit-select select {
   padding: 6px 10px;
-  border: 1px solid #d0d5dd;
-  border-radius: 6px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  font-family: var(--font-body);
 }
 
 .admin-reports-status {
-  color: #667085;
+  color: var(--color-text-muted);
   padding: 24px 0;
 }
 
 .admin-reports-error {
-  color: #b42318;
+  color: var(--color-brick-dark);
 }
 
 .report-list {
@@ -38,16 +41,17 @@
   grid-template-columns: 40px 1fr 60px;
   align-items: center;
   gap: 16px;
-  background: #fff;
-  border: 1px solid #eaecf0;
-  border-radius: 8px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
   padding: 16px 20px;
 }
 
 .report-rank {
+  font-family: var(--font-display);
   font-size: 1.2rem;
-  font-weight: 700;
-  color: #4f46e5;
+  font-weight: 600;
+  color: var(--color-matcha-dark);
   text-align: center;
 }
 
@@ -58,16 +62,16 @@
 }
 
 .report-details strong {
-  color: #172033;
+  color: var(--color-text);
 }
 
 .report-meta {
-  color: #667085;
+  color: var(--color-text-muted);
   font-size: 0.8rem;
 }
 
 .report-bar-track {
-  background: #eef2ff;
+  background: var(--color-gauge-track);
   border-radius: 999px;
   height: 8px;
   margin-top: 6px;
@@ -75,14 +79,15 @@
 }
 
 .report-bar-fill {
-  background: #4f46e5;
+  background: var(--color-matcha);
   height: 100%;
   border-radius: 999px;
 }
 
 .report-count {
-  font-size: 1.4rem;
-  font-weight: 700;
-  color: #172033;
+  font-family: var(--font-mono);
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: var(--color-text);
   text-align: right;
 }

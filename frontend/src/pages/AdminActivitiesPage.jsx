@@ -2,6 +2,7 @@ import { useState, useEffect, useCallback } from "react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import * as activitiesApi from "../api/activitiesApi";
+import SpotsGauge from "../components/SpotsGauge";
 import "../styles/admin-activities.css";
 
 const STATUS_FILTERS = [
@@ -65,7 +66,9 @@ export default function AdminActivitiesPage() {
   }
 
   async function handleDeactivate(id, title) {
-    const confirmed = window.confirm(`Deactivate "${title}"? Volunteers won't be able to register once it's inactive.`);
+    const confirmed = window.confirm(
+      `Deactivate "${title}"? Volunteers won't be able to register once it's inactive.`
+    );
     if (!confirmed) {
       return;
     }
@@ -126,7 +129,9 @@ export default function AdminActivitiesPage() {
                 <span>{activity.title}</span>
                 <span>{activity.category}</span>
                 <span>{activity.activityDate}</span>
-                <span>{activity.registeredCount} / {activity.capacity}</span>
+                <span>
+                  <SpotsGauge registeredCount={activity.registeredCount} capacity={activity.capacity} />
+                </span>
                 <span>
                   <span className={`status-badge status-${activity.status.toLowerCase()}`}>
                     {activity.status}

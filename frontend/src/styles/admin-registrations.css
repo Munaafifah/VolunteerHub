@@ -10,24 +10,26 @@
 }
 
 .admin-registrations-header select {
-  padding: 8px 10px;
-  border: 1px solid #d0d5dd;
-  border-radius: 6px;
+  padding: 8px 12px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  font-family: var(--font-body);
+  background: var(--color-surface);
 }
 
 .admin-registrations-status {
-  color: #667085;
+  color: var(--color-text-muted);
   padding: 20px 0;
 }
 
 .admin-registrations-error {
-  color: #b42318;
+  color: var(--color-brick-dark);
 }
 
 .admin-registrations-table {
-  background: #fff;
-  border: 1px solid #eaecf0;
-  border-radius: 8px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
   overflow: hidden;
 }
 
@@ -37,7 +39,7 @@
   gap: 12px;
   padding: 12px 16px;
   align-items: center;
-  border-bottom: 1px solid #eaecf0;
+  border-bottom: 1px solid var(--color-border);
   font-size: 0.9rem;
 }
 
@@ -46,37 +48,39 @@
 }
 
 .admin-registrations-row-header {
-  background: #f9fafb;
+  background: var(--color-almond);
   font-weight: 600;
-  color: #667085;
-  font-size: 0.8rem;
+  color: var(--color-text-muted);
+  font-size: 0.75rem;
   text-transform: uppercase;
+  letter-spacing: 0.03em;
 }
 
 .admin-registrations-row strong {
   display: block;
-  color: #172033;
+  color: var(--color-text);
 }
 
 .admin-registrations-subtext {
   display: block;
-  color: #667085;
+  color: var(--color-text-muted);
   font-size: 0.8rem;
+  font-family: var(--font-mono);
 }
 
 .status-badge {
   padding: 3px 10px;
   border-radius: 999px;
-  font-size: 0.75rem;
+  font-size: 0.72rem;
   font-weight: 700;
 }
 
 .status-registered {
-  background: #dcfce7;
-  color: #166534;
+  background: var(--color-pistache);
+  color: #3F3F2A;
 }
 
 .status-cancelled {
-  background: #fee2e2;
-  color: #991b1b;
+  background: #F3D9CD;
+  color: var(--color-brick-dark);
 }

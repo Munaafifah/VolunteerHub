@@ -1,4 +1,5 @@
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
+import { HeartHandshake } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import "../styles/app-shell.css";
 
@@ -18,7 +19,10 @@ export default function AppShell() {
   return (
     <div className="app-shell">
       <header className="app-header">
-        <span className="app-title">VolunteerHub</span>
+        <div className="app-title-group">
+          <HeartHandshake className="app-title-icon" size={22} aria-hidden="true" />
+          <span className="app-title">VolunteerHub</span>
+        </div>
       </header>
 
       <nav className="app-nav">

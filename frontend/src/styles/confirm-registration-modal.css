@@ -1,0 +1,133 @@
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(36, 30, 41, 0.45);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  z-index: 100;
+}
+
+.modal-card {
+  background: var(--color-surface);
+  border-radius: var(--radius);
+  padding: 28px;
+  width: 100%;
+  max-width: 420px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.modal-card h2 {
+  margin-bottom: 10px;
+}
+
+.modal-description {
+  color: var(--color-text);
+  margin-bottom: 18px;
+  line-height: 1.5;
+}
+
+.modal-details {
+  display: grid;
+  gap: 10px;
+  margin: 0 0 18px;
+}
+
+.modal-details > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--color-border);
+  padding-bottom: 8px;
+  gap: 16px;
+}
+
+.modal-details dt {
+  color: var(--color-text-muted);
+  font-size: 0.85rem;
+  flex-shrink: 0;
+}
+
+.modal-details dd {
+  margin: 0;
+  font-weight: 500;
+  color: var(--color-text);
+  text-align: right;
+}
+
+.modal-details-gauge dd {
+  flex: 1;
+}
+
+.modal-error {
+  background: #F8E5DE;
+  color: var(--color-brick-dark);
+  padding: 8px 12px;
+  border-radius: var(--radius);
+  font-size: 0.85rem;
+  margin-bottom: 14px;
+}
+
+.modal-success {
+  font-size: 1.05rem;
+  color: var(--color-matcha-dark);
+  background: var(--color-pistache);
+  padding: 14px 18px;
+  border-radius: var(--radius);
+  margin-bottom: 18px;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.modal-confirm-button {
+  padding: 10px 22px;
+  border: none;
+  border-radius: var(--radius);
+  background: var(--color-chai);
+  color: #4A3417;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.modal-confirm-button:hover:not(:disabled) {
+  background: #C79A6C;
+}
+
+.modal-confirm-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.modal-link-button {
+  padding: 10px 22px;
+  border-radius: var(--radius);
+  background: var(--color-chai);
+  color: #4A3417;
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.modal-link-button:hover {
+  background: #C79A6C;
+}
+
+.modal-secondary-button {
+  padding: 10px 22px;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  color: var(--color-text);
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+
+.modal-secondary-button:hover:not(:disabled) {
+  border-color: var(--color-matcha);
+}

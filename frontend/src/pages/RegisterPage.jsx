@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { HeartHandshake } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
-import "../styles/app-shell.css";
+import "../styles/auth.css";
 
 export default function RegisterPage() {
   const [name, setName] = useState("");
@@ -30,52 +31,59 @@ export default function RegisterPage() {
 
   return (
     <div className="auth-page">
-      <div className="auth-card">
-        <h2>Register for VolunteerHub</h2>
-        <p className="auth-subtitle">New accounts are created with the Volunteer role.</p>
+      <div>
+        <div className="auth-brand">
+          <HeartHandshake className="auth-brand-icon" size={24} aria-hidden="true" />
+          <span className="auth-brand-text">VolunteerHub</span>
+        </div>
 
-        <form onSubmit={handleSubmit}>
-          <label>
-            Name
-            <input
-              type="text"
-              value={name}
-              onChange={(event) => setName(event.target.value)}
-              required
-            />
-          </label>
+        <div className="auth-card">
+          <h2>Register for VolunteerHub</h2>
+          <p className="auth-subtitle">New accounts are created with the Volunteer role.</p>
 
-          <label>
-            Email
-            <input
-              type="email"
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
-              required
-            />
-          </label>
+          <form onSubmit={handleSubmit}>
+            <label>
+              Name
+              <input
+                type="text"
+                value={name}
+                onChange={(event) => setName(event.target.value)}
+                required
+              />
+            </label>
 
-          <label>
-            Password
-            <input
-              type="password"
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
-              minLength={8}
-              required
-            />
-          </label>
+            <label>
+              Email
+              <input
+                type="email"
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
+                required
+              />
+            </label>
 
-          {error && <p className="auth-error" role="alert">{error}</p>}
+            <label>
+              Password
+              <input
+                type="password"
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+                minLength={8}
+                required
+              />
+            </label>
 
-          <button type="submit" disabled={loading}>
-            {loading ? "Creating account..." : "Register"}
-          </button>
-        </form>
+            {error && <p className="auth-error" role="alert">{error}</p>}
 
-        <p className="auth-switch">
-          Already have an account? <Link to="/login">Login</Link>
-        </p>
+            <button type="submit" disabled={loading}>
+              {loading ? "Creating account..." : "Register"}
+            </button>
+          </form>
+
+          <p className="auth-switch">
+            Already have an account? <Link to="/login">Login</Link>
+          </p>
+        </div>
       </div>
     </div>
   );

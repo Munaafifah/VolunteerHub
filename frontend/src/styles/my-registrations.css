@@ -1,11 +1,11 @@
 .registrations-status {
-  color: #667085;
+  color: var(--color-text-muted);
   padding: 40px 0;
   text-align: center;
 }
 
 .registrations-error {
-  color: #b42318;
+  color: var(--color-brick-dark);
 }
 
 .my-registrations-page h1 {
@@ -18,9 +18,9 @@
 }
 
 .registration-card {
-  background: #fff;
-  border: 1px solid #eaecf0;
-  border-radius: 8px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
   padding: 16px 20px;
   display: flex;
   justify-content: space-between;
@@ -31,12 +31,14 @@
 
 .registration-info h3 {
   margin: 0 0 4px;
+  font-size: 1rem;
 }
 
 .registration-meta {
-  color: #667085;
+  color: var(--color-text-muted);
   font-size: 0.85rem;
   margin: 2px 0;
+  font-family: var(--font-mono);
 }
 
 .registration-actions {
@@ -46,30 +48,36 @@
 }
 
 .status-badge {
-  padding: 4px 10px;
+  padding: 4px 12px;
   border-radius: 999px;
   font-size: 0.75rem;
   font-weight: 700;
+  font-family: var(--font-body);
 }
 
 .status-registered {
-  background: #dcfce7;
-  color: #166534;
+  background: var(--color-pistache);
+  color: #3F3F2A;
 }
 
 .status-cancelled {
-  background: #fee2e2;
-  color: #991b1b;
+  background: #F3D9CD;
+  color: var(--color-brick-dark);
 }
 
 .cancel-button {
   padding: 6px 14px;
-  border: 1px solid #d0d5dd;
-  border-radius: 6px;
-  background: #fff;
-  color: #991b1b;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius);
+  background: var(--color-surface);
+  color: var(--color-brick-dark);
   cursor: pointer;
   font-size: 0.85rem;
+}
+
+.cancel-button:hover:not(:disabled) {
+  border-color: var(--color-brick);
+  background: #FCF2EE;
 }
 
 .cancel-button:disabled {
