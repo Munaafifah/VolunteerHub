@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import * as registrationsApi from "../api/registrationsApi";
 import * as activitiesApi from "../api/activitiesApi";
+import ConfirmCancelModal from "../components/ConfirmCancelModal";
 import "../styles/my-registrations.css";
 
 export default function MyRegistrationsPage() {
@@ -11,8 +12,7 @@ export default function MyRegistrationsPage() {
   const [registrations, setRegistrations] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [cancellingId, setCancellingId] = useState(null);
-  const [cancelError, setCancelError] = useState(null);
+  const [cancellingRegistration, setCancellingRegistration] = useState(null);
 
   const loadRegistrations = useCallback(async () => {
     setLoading(true);
@@ -45,22 +45,10 @@ export default function MyRegistrationsPage() {
     loadRegistrations();
   }, [loadRegistrations]);
 
-  async function handleCancel(registrationId, activityTitle) {
-    const confirmed = window.confirm(`Cancel your registration for "${activityTitle}"?`);
-    if (!confirmed) {
-      return;
-    }
-
-    setCancellingId(registrationId);
-    setCancelError(null);
-    try {
-      await registrationsApi.cancelRegistration(registrationId, token);
-      await loadRegistrations();
-    } catch (err) {
-      setCancelError(err.message);
-    } finally {
-      setCancellingId(null);
-    }
+  async function handleCancel(registrationId) {
+    await registrationsApi.cancelRegistration(registrationId, token);
+    await loadRegistrations();
+    setCancellingRegistration(null);
   }
 
   if (loading) {
@@ -83,8 +71,6 @@ export default function MyRegistrationsPage() {
   return (
     <div className="my-registrations-page">
       <h1>My Registrations</h1>
-
-      {cancelError && <p className="registrations-status registrations-error">{cancelError}</p>}
 
       <div className="registrations-list">
         {registrations.map((registration) => (
@@ -113,16 +99,23 @@ export default function MyRegistrationsPage() {
                 <button
                   type="button"
                   className="cancel-button"
-                  disabled={cancellingId === registration.id}
-                  onClick={() => handleCancel(registration.id, registration.activity?.title || "this activity")}
+                  onClick={() => setCancellingRegistration(registration)}
                 >
-                  {cancellingId === registration.id ? "Cancelling..." : "Cancel"}
+                  Cancel
                 </button>
               )}
             </div>
           </div>
         ))}
       </div>
+
+      {cancellingRegistration && (
+        <ConfirmCancelModal
+          activityTitle={cancellingRegistration.activity?.title || "this activity"}
+          onClose={() => setCancellingRegistration(null)}
+          onConfirm={() => handleCancel(cancellingRegistration.id)}
+        />
+      )}
     </div>
   );
 }

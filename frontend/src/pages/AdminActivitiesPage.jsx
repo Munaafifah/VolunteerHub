@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import * as activitiesApi from "../api/activitiesApi";
 import SpotsGauge from "../components/SpotsGauge";
+import ConfirmDeactivateModal from "../components/ConfirmDeactivateModal";
 import "../styles/admin-activities.css";
 
 const STATUS_FILTERS = [
@@ -21,8 +22,7 @@ export default function AdminActivitiesPage() {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [actionError, setActionError] = useState(null);
-  const [deactivatingId, setDeactivatingId] = useState(null);
+  const [deactivatingActivity, setDeactivatingActivity] = useState(null);
 
   const fetchActivities = useCallback(async () => {
     setLoading(true);
@@ -65,24 +65,10 @@ export default function AdminActivitiesPage() {
     }
   }
 
-  async function handleDeactivate(id, title) {
-    const confirmed = window.confirm(
-      `Deactivate "${title}"? Volunteers won't be able to register once it's inactive.`
-    );
-    if (!confirmed) {
-      return;
-    }
-
-    setDeactivatingId(id);
-    setActionError(null);
-    try {
-      await activitiesApi.deactivateActivity(id, token);
-      await fetchActivities();
-    } catch (err) {
-      setActionError(err.message);
-    } finally {
-      setDeactivatingId(null);
-    }
+  async function handleDeactivate(id) {
+    await activitiesApi.deactivateActivity(id, token);
+    await fetchActivities();
+    setDeactivatingActivity(null);
   }
 
   return (
@@ -99,8 +85,6 @@ export default function AdminActivitiesPage() {
           ))}
         </select>
       </div>
-
-      {actionError && <p className="admin-activities-status admin-activities-error">{actionError}</p>}
 
       {loading && <p className="admin-activities-status">Loading activities...</p>}
 
@@ -142,10 +126,9 @@ export default function AdminActivitiesPage() {
                   {activity.status === "ACTIVE" && (
                     <button
                       type="button"
-                      disabled={deactivatingId === activity.id}
-                      onClick={() => handleDeactivate(activity.id, activity.title)}
+                      onClick={() => setDeactivatingActivity(activity)}
                     >
-                      {deactivatingId === activity.id ? "..." : "Deactivate"}
+                      Deactivate
                     </button>
                   )}
                 </span>
@@ -167,6 +150,14 @@ export default function AdminActivitiesPage() {
             </button>
           </div>
         </>
+      )}
+
+      {deactivatingActivity && (
+        <ConfirmDeactivateModal
+          activity={deactivatingActivity}
+          onClose={() => setDeactivatingActivity(null)}
+          onConfirm={() => handleDeactivate(deactivatingActivity.id)}
+        />
       )}
     </div>
   );
