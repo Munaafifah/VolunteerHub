@@ -103,8 +103,6 @@ Seeded automatically on first run if the collections are empty (see `UserDataSee
 
 ## 6. Screenshots
 
-_Add screenshots here before final submission._
-
 | Feature | Screenshot |
 |---|---|
 | Login | `screenshots/01_login.png` |
@@ -117,23 +115,20 @@ _Add screenshots here before final submission._
 
 ---
 
-## 7. Demo
-
-_Add a short demo video/GIF link here before final submission (e.g. Loom, YouTube unlisted, or a `.gif` in `/screenshots`)._
-
----
-
-## 8. Assumptions
+## 7. Assumptions
 
 - Self-registration always creates a `VOLUNTEER` account — `ADMIN` accounts are seed-only and not assignable through the public register endpoint.
 - `activityTime` is stored as a separate `String` field rather than combined into a single `DateTime`, matching the brief's entity pattern which lists it separately from `activityDate`.
 - "Deactivating" an activity (`DELETE /api/activities/{id}`) sets its status to `INACTIVE` rather than removing it, so historical registrations tied to it remain valid.
 
-## 9. Known Limitations
+## 8. Known Limitations
 
-- None outstanding — the ownership check on `GET /api/registrations/{id}` (previously missing) has been added, so only the registration's owner or an ADMIN can view it.
+- No password reset / "forgot password" flow — if a user forgets their password, an admin would need to manually reset it in the database.
+- No email verification on registration — any email format is accepted at signup without confirming the address is real or owned by the user.
+- Activity capacity and deadline are not editable-safe — if an admin lowers capacity below the current `registeredCount`, or moves the deadline into the past, existing registrations aren't automatically flagged or cancelled.
+- No file/image upload for activities — activities are text-only, with no photo or attachment support.
 
-## 10. Bonus / Stretch Features
+## 9. Bonus / Stretch Features
 
 - Admin-only "all registrations" view (`GET /api/registrations`) beyond the minimum required pages.
 - Admin actions are handled through role-gated `/api/activities`, `/api/registrations`, and `/api/reports` endpoints rather than a separate `/api/admin` route group — a deliberate design choice, since all admin actions map cleanly onto the existing resource endpoints.

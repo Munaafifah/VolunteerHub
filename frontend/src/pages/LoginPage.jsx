@@ -73,11 +73,6 @@ export default function LoginPage() {
           <p className="auth-switch">
             Don't have an account? <Link to="/register">Register</Link>
           </p>
-
-          <div className="seeded-hint">
-            <p>Seeded admin: admin1@volunteerhub.com / Admin@12345</p>
-            <p>Seeded volunteer: user1@volunteerhub.com / Volunteer@123</p>
-          </div>
         </div>
       </div>
     </div>
