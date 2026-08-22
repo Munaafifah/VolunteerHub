@@ -126,18 +126,18 @@ export default function AdminActivitiesPage() {
 
             {data.content.map((activity) => (
               <div className="admin-activities-row" key={activity.id}>
-                <span>{activity.title}</span>
-                <span>{activity.category}</span>
-                <span>{activity.activityDate}</span>
-                <span>
+                <span data-label="Title">{activity.title}</span>
+                <span data-label="Category">{activity.category}</span>
+                <span data-label="Date">{activity.activityDate}</span>
+                <span data-label="Spots">
                   <SpotsGauge registeredCount={activity.registeredCount} capacity={activity.capacity} />
                 </span>
-                <span>
+                <span data-label="Status">
                   <span className={`status-badge status-${activity.status.toLowerCase()}`}>
                     {activity.status}
                   </span>
                 </span>
-                <span className="admin-activities-actions">
+                <span className="admin-activities-actions" data-label="Actions">
                   <Link to={`/admin/activities/${activity.id}/edit`}>Edit</Link>
                   {activity.status === "ACTIVE" && (
                     <button

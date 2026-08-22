@@ -32,15 +32,17 @@ public class RegistrationController {
 
     @PostMapping
     public ResponseEntity<RegistrationResponse> register(@Valid @RequestBody CreateRegistrationRequest request,
-                                                           @AuthenticationPrincipal Jwt jwt) {
+            @AuthenticationPrincipal Jwt jwt) {
         String userId = jwt.getClaimAsString("userId");
         RegistrationResponse created = registrationService.register(request, userId);
         return ResponseEntity.status(HttpStatus.CREATED).body(created);
     }
 
     @GetMapping("/{id}")
-    public RegistrationResponse getRegistrationById(@PathVariable String id) {
-        return registrationService.getRegistrationById(id);
+    public RegistrationResponse getRegistrationById(@PathVariable String id, @AuthenticationPrincipal Jwt jwt) {
+        String userId = jwt.getClaimAsString("userId");
+        String role = jwt.getClaimAsString("role");
+        return registrationService.getRegistrationById(id, userId, role);
     }
 
     @GetMapping("/my")

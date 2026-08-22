@@ -120,11 +120,19 @@ public class RegistrationService {
                 .toList();
     }
 
-    public RegistrationResponse getRegistrationById(String id) {
-        Registration registration = registrationRepository.findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Registration " + id + " was not found"));
-        return toResponse(registration);
+    public RegistrationResponse getRegistrationById(String id, String requestingUserId, String requestingRole) {
+    Registration registration = registrationRepository.findById(id)
+            .orElseThrow(() -> new ResourceNotFoundException("Registration " + id + " was not found"));
+
+    boolean isOwner = registration.getUserId().equals(requestingUserId);
+    boolean isAdmin = ROLE_ADMIN.equals(requestingRole);
+
+    if (!isOwner && !isAdmin) {
+        throw new ForbiddenActionException("You can only view your own registrations");
     }
+
+    return toResponse(registration);
+}
 
     private RegistrationResponse toResponse(Registration registration) {
         return new RegistrationResponse(

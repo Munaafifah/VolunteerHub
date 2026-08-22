@@ -1,4 +1,4 @@
-@token = eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyMUB2b2x1bnRlZXJodWIuY29tIiwicm9sZSI6IlZPTFVOVEVFUiIsImlzcyI6InZvbHVudGVlcmh1Yi1hcGkiLCJuYW1lIjoiVm9sdW50ZWVyIE9uZSIsImV4cCI6MTc4Njk3NTAyNywiaWF0IjoxNzg2OTcxNDI3LCJ1c2VySWQiOiJ1c2VyMSJ9.GP2CsIQ7ZOuZs8W1j1MbPOyyip4kfqo0pl_kiwg4-lU
+@token = 
 
 ### Register (as user1)
 POST http://localhost:8082/api/registrations

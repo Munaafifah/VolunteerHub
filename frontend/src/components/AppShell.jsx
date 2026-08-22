@@ -1,11 +1,13 @@
+import { useState } from "react";
 import { NavLink, Outlet, useNavigate } from "react-router-dom";
-import { HeartHandshake } from "lucide-react";
+import { HeartHandshake, Menu, X } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import "../styles/app-shell.css";
 
 export default function AppShell() {
   const { user, logout } = useAuth();
   const navigate = useNavigate();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   function handleLogout() {
     logout();
@@ -16,6 +18,10 @@ export default function AppShell() {
     return isActive ? "nav-link active" : "nav-link";
   }
 
+  function closeMobileMenu() {
+    setMobileMenuOpen(false);
+  }
+
   return (
     <div className="app-shell">
       <header className="app-header">
@@ -23,17 +29,37 @@ export default function AppShell() {
           <HeartHandshake className="app-title-icon" size={22} aria-hidden="true" />
           <span className="app-title">VolunteerHub</span>
         </div>
+
+        <button
+          type="button"
+          className="mobile-menu-toggle"
+          onClick={() => setMobileMenuOpen((prev) => !prev)}
+          aria-label={mobileMenuOpen ? "Close menu" : "Open menu"}
+          aria-expanded={mobileMenuOpen}
+        >
+          {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+        </button>
       </header>
 
-      <nav className="app-nav">
-        <NavLink to="/activities" className={navClass}>Activities</NavLink>
-        <NavLink to="/registrations" className={navClass}>My Registrations</NavLink>
+      <nav className={mobileMenuOpen ? "app-nav app-nav-open" : "app-nav"}>
+        <NavLink to="/activities" className={navClass} onClick={closeMobileMenu}>
+          Activities
+        </NavLink>
+        <NavLink to="/registrations" className={navClass} onClick={closeMobileMenu}>
+          My Registrations
+        </NavLink>
 
         {user?.role === "ADMIN" && (
           <>
-            <NavLink to="/admin/activities" className={navClass}>Manage Activities</NavLink>
-            <NavLink to="/admin/registrations" className={navClass}>All Registrations</NavLink>
-            <NavLink to="/admin/reports" className={navClass}>Reports</NavLink>
+            <NavLink to="/admin/activities" className={navClass} onClick={closeMobileMenu}>
+              Manage Activities
+            </NavLink>
+            <NavLink to="/admin/registrations" className={navClass} onClick={closeMobileMenu}>
+              All Registrations
+            </NavLink>
+            <NavLink to="/admin/reports" className={navClass} onClick={closeMobileMenu}>
+              Reports
+            </NavLink>
           </>
         )}
 
