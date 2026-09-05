@@ -1,4 +1,5 @@
 const BASE_URL = "/api";
+const AUTH_STORAGE_KEY = "volunteerhub_auth"; // must match STORAGE_KEY in AuthContext.jsx
 
 export async function apiRequest(path, { method = "GET", body, token } = {}) {
   const headers = { "Content-Type": "application/json" };
@@ -11,6 +12,14 @@ export async function apiRequest(path, { method = "GET", body, token } = {}) {
     headers,
     body: body ? JSON.stringify(body) : undefined
   });
+
+  if (response.status === 401) {
+    localStorage.removeItem(AUTH_STORAGE_KEY);
+    if (window.location.pathname !== "/login") {
+      window.location.href = "/login";
+    }
+    return new Promise(() => {}); // stop here; the redirect is already underway
+  }
 
   const isJson = response.headers.get("content-type")?.includes("application/json");
   const data = isJson ? await response.json() : null;

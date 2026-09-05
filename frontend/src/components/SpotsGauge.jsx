@@ -1,5 +1,7 @@
 import "../styles/spots-gauge.css";
 
+//shows how full an activity is
+
 export default function SpotsGauge({ registeredCount, capacity }) {
   const safeCapacity = capacity > 0 ? capacity : 1;
   const ratio = Math.min(registeredCount / safeCapacity, 1);

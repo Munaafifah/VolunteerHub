@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useAuth } from "../context/AuthContext";
 import * as registrationsApi from "../api/registrationsApi";
 
+// fetches your active registrations once, and gives every page a fast way to check "am I already registered for this activity?"
 export function useMyRegisteredActivityIds() {
   const { token } = useAuth();
   const [registeredActivityIds, setRegisteredActivityIds] = useState(new Set());
