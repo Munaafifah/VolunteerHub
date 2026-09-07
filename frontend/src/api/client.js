@@ -1,4 +1,6 @@
-const BASE_URL = "/api";
+const BASE_URL = import.meta.env.VITE_API_BASE_URL
+  ? `${import.meta.env.VITE_API_BASE_URL}/api`
+  : "/api";
 const AUTH_STORAGE_KEY = "volunteerhub_auth"; // must match STORAGE_KEY in AuthContext.jsx
 
 export async function apiRequest(path, { method = "GET", body, token } = {}) {
