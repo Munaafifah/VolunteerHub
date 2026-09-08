@@ -16,6 +16,14 @@ export default function LoginPage() {
 
   const from = location.state?.from?.pathname || "/activities";
 
+  const GUEST_EMAIL = "guest@volunteerhub.com";
+  const GUEST_PASSWORD = "Guest123";
+
+  function fillGuestCredentials() {
+    setEmail(GUEST_EMAIL);
+    setPassword(GUEST_PASSWORD);
+  }
+
   async function handleSubmit(event) {
     event.preventDefault();
     setError(null);
@@ -64,6 +72,10 @@ export default function LoginPage() {
             </label>
 
             {error && <p className="auth-error" role="alert">{error}</p>}
+
+            <button type="button" className="seeded-hint" onClick={fillGuestCredentials}>
+              Guest login — Email: <strong>{GUEST_EMAIL}</strong> | Password: <strong>{GUEST_PASSWORD}</strong>
+            </button>
 
             <button type="submit" disabled={loading}>
               {loading ? "Logging in..." : "Login"}

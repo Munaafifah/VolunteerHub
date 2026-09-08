@@ -29,6 +29,7 @@ public class UserDataSeeder {
             createUserIfMissing(userRepository, passwordEncoder, "user3", "Volunteer Three", "user3@volunteerhub.com", "Volunteer@123", "VOLUNTEER");
             createUserIfMissing(userRepository, passwordEncoder, "user4", "Volunteer Four", "user4@volunteerhub.com", "Volunteer@123", "VOLUNTEER");
             createUserIfMissing(userRepository, passwordEncoder, "user5", "Volunteer Five", "user5@volunteerhub.com", "Volunteer@123", "VOLUNTEER");
+            createUserIfMissing(userRepository, passwordEncoder, "guest", "Guest", "guest@volunteerhub.com", "Guest123", "VOLUNTEER");
         };
     }
 
