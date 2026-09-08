@@ -108,24 +108,14 @@
 }
 
 .seeded-hint {
-  display: block;
-  width: 100%;
-  margin-bottom: 16px;
-  padding: 10px 14px;
-  border: 1px solid var(--color-chai);
-  border-radius: var(--radius);
-  background: #FBF3E7;
+  margin-top: 20px;
+  padding-top: 16px;
+  border-top: 1px solid var(--color-border);
   font-size: 0.8rem;
-  font-family: var(--font-mono);
   color: var(--color-text-muted);
-  text-align: center;
-  cursor: pointer;
+  font-family: var(--font-mono);
 }
 
-.seeded-hint:hover {
-  background: #F5E8D3;
-}
-
-.seeded-hint strong {
-  color: var(--color-text);
+.seeded-hint p {
+  margin: 4px 0;
 }
