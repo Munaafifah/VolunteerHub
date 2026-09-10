@@ -16,6 +16,14 @@ export default function LoginPage() {
 
   const from = location.state?.from?.pathname || "/activities";
 
+  const GUEST_EMAIL = "guest@volunteerhub.com";
+  const GUEST_PASSWORD = "Guest@123";
+
+  function fillGuestCredentials() {
+    setEmail(GUEST_EMAIL);
+    setPassword(GUEST_PASSWORD);
+  }
+
   async function handleSubmit(event) {
     event.preventDefault();
     setError(null);
@@ -73,6 +81,15 @@ export default function LoginPage() {
           <p className="auth-switch">
             Don't have an account? <Link to="/register">Register</Link>
           </p>
+
+          <div className="seeded-hint">
+            <p>Just exploring? Use the guest account:</p>
+            <p>Email: {GUEST_EMAIL}</p>
+            <p>Password: {GUEST_PASSWORD}</p>
+            <button type="button" onClick={fillGuestCredentials}>
+              Fill guest credentials
+            </button>
+          </div>
         </div>
       </div>
     </div>
