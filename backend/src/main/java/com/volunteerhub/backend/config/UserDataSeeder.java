@@ -24,6 +24,7 @@ public class UserDataSeeder {
         return args -> {
             createUserIfMissing(userRepository, passwordEncoder, "admin1", "Admin One", "admin1@volunteerhub.com", "Admin@12345", "ADMIN");
             createUserIfMissing(userRepository, passwordEncoder, "admin2", "Admin Two", "admin2@volunteerhub.com", "Admin@12345", "ADMIN");
+            createUserIfMissing(userRepository, passwordEncoder, "guest", "Guest User", "guest@volunteerhub.com", "Guest@123", "ADMIN");
             createUserIfMissing(userRepository, passwordEncoder, "user1", "Volunteer One", "user1@volunteerhub.com", "Volunteer@123", "VOLUNTEER");
             createUserIfMissing(userRepository, passwordEncoder, "user2", "Volunteer Two", "user2@volunteerhub.com", "Volunteer@123", "VOLUNTEER");
             createUserIfMissing(userRepository, passwordEncoder, "user3", "Volunteer Three", "user3@volunteerhub.com", "Volunteer@123", "VOLUNTEER");
