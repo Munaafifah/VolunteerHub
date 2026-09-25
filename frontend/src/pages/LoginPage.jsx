@@ -16,12 +16,12 @@ export default function LoginPage() {
 
   const from = location.state?.from?.pathname || "/activities";
 
-  const GUEST_EMAIL = "guest@volunteerhub.com";
-  const GUEST_PASSWORD = "Guest@123";
+  const ADMIN_EMAIL = "admin1@volunteerhub.com";
+  const ADMIN_PASSWORD = "Admin@12345";
 
-  function fillGuestCredentials() {
-    setEmail(GUEST_EMAIL);
-    setPassword(GUEST_PASSWORD);
+  function fillAdminCredentials() {
+    setEmail(ADMIN_EMAIL);
+    setPassword(ADMIN_PASSWORD);
   }
 
   async function handleSubmit(event) {
@@ -83,11 +83,11 @@ export default function LoginPage() {
           </p>
 
           <div className="seeded-hint">
-            <p>Just exploring? Use the guest account:</p>
-            <p>Email: {GUEST_EMAIL}</p>
-            <p>Password: {GUEST_PASSWORD}</p>
-            <button type="button" onClick={fillGuestCredentials}>
-              Fill guest credentials
+            <p>Just exploring? Use the admin account:</p>
+            <p>Email: {ADMIN_EMAIL}</p>
+            <p>Password: {ADMIN_PASSWORD}</p>
+            <button type="button" onClick={fillAdminCredentials}>
+              Fill admin credentials
             </button>
           </div>
         </div>
